@@ -8,7 +8,7 @@
         .main {
             border: 1px black solid;
             width: 600px;
-            height: 600px;
+            height: 800px;
             text-align: center;
             margin: 0 auto;
             padding: 10px;
@@ -108,8 +108,13 @@
         .__jj_dialog_title_right {
             width: 30px;
         }
+
+        .img-responsive {
+            width: 50px;
+        }
     </style>
 </head>
+<script th:src="@{/js/jquery-3.5.1.min.js}"></script>
 <body>
 <div class="main">
     <div class="__jj_dialog_title">
@@ -134,9 +139,30 @@
             <td>累计奖励</td>
         </tr>
         <tbody id="_jj_tbodyList">
+        <tr th:each="info : ${data.lottery}">
+            <td><img class="img-responsive" alt="App Logo" th:src="${info.lottery_image}"/></td>
+            <td th:text="${info.lottery_name}">奖品名称</td>
+            <td>中奖次数</td>
+            <td>累计奖励</td>
+        </tr>
         </tbody>
         </thead>
     </table>
 </div>
+<script type="application/javascript">
+    $("#_jj_btn_sign_in").click(() => {
+        $.get('/rest/signIn', (data, status) => {
+            let result = JSON.parse(data)
+            if (result.err_no != 0) {
+                alert(result.err_msg)
+            } else {
+                alert(`签到成功,连续签到[[${cont_count} + 1]]天,累计签到[[${sum_count} + 1]]`)
+                $("#continuous_num").text(parseInt($("#continuous_num").text()) + 1)
+                $("#total_num").text(parseInt($("#total_num").text()) + 1)
+            }
+        })
+    })
+
+</script>
 </body>
 </html>
