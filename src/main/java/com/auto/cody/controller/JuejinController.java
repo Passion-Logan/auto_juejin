@@ -2,28 +2,23 @@ package com.auto.cody.controller;
 
 import cn.hutool.http.Header;
 import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 
 /**
  * @author wql
- * @desc HomeController
+ * @desc JuejinController
  * @date 2021/9/6
  * @lastUpdateUser wql
  * @lastUpdateDesc
  * @lastUpdateTime 2021/9/6
  */
-@Controller
-@RequestMapping("home")
-public class HomeController {
+@RestController("rest")
+public class JuejinController {
 
     @Value("${juejin.aid}")
     private String aid;
@@ -48,44 +43,24 @@ public class HomeController {
 
     @PostConstruct
     public void init() {
+        /*String aid = "2608";
+        String uuid = "6956000234107389447";*/
         PARAM_MAP.put("aid", aid);
         PARAM_MAP.put("uuid", uuid);
     }
 
-    @RequestMapping("page")
-    public String page(Model model) {
-        // 签到天数
-        String days = executeUrl(SIGN_IN_DAYS);
-        JSONObject dayReq = JSONUtil.parseObj(days);
-        isErr(dayReq);
-        JSONObject dayInfo = JSONUtil.parseObj(dayReq.get("data"));
-        model.addAttribute("cont_count", dayInfo.get("cont_count"));
-        model.addAttribute("sum_count", dayInfo.get("sum_count"));
-        // 矿石总数
-        String ore = executeUrl(TOTAL_ORE);
-        JSONObject oreReq = JSONUtil.parseObj(ore);
-        isErr(oreReq);
-        model.addAttribute("ore_count", oreReq.get("data"));
-        // 奖品池信息
-        String poolReq = HttpUtil.get(PRIZE_POOL, PARAM_MAP);
-        JSONObject poolInfo = JSONUtil.parseObj(poolReq);
-        isErr(poolInfo);
-
-        return "home/page";
-    }
-
-    private void isErr(JSONObject req) {
-        int errNo = (int) req.get("err_no");
-        if (errNo != 0) {
-            throw new RuntimeException(req.get("err_msg").toString());
-        }
-    }
-
-    private String executeUrl(String url) {
-        return HttpRequest.get(url)
+    /**
+     * 签到天数
+     *
+     * @return string
+     */
+    @GetMapping("signInDays")
+    public String signInDays() {
+        return HttpRequest.get(SIGN_IN_DAYS)
                 .header(Header.COOKIE, COOKIE)
                 .form(PARAM_MAP)
                 .execute().body();
     }
+
 
 }

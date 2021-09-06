@@ -5,3 +5,9 @@ spring:
     check-template-location: true
     prefix: classpath:/templates/
     suffix: .html
+
+
+# 自定义属性
+juejin:
+  aid: 2608
+  uuid: 6956000234107389447

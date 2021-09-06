@@ -1,10 +1,142 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+>
 <head>
     <meta charset="UTF-8">
-    <title>test</title>
+    <title>抽奖</title>
+    <style>
+        .main {
+            border: 1px black solid;
+            width: 600px;
+            height: 600px;
+            text-align: center;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        ._jj_draw_container {
+            position: fixed;
+            top: 80px;
+            right: 0;
+            z-index: 9999;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+        }
+
+        ._jj_button {
+            padding: 6px;
+            background-color: #1e80ff;
+            color: #fff;
+            border-radius: 4px;
+            text-align: center;
+            vertical-align: middle;
+            border: 1px solid transparent;
+            font-weight: 700;
+            letter-spacing: 1em;
+            text-indent: 1em;
+            cursor: pointer;
+        }
+
+        ._jj_btn_sign_in {
+            background-color: #e8f3ff !important;
+            color: #1e80ff !important;
+        }
+
+        ._jj_button:hover {
+            opacity: 0.8;
+        }
+
+        table._jj_hovertable thead {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        table._jj_hovertable {
+            font-family: verdana, arial, sans-serif;
+            font-size: 11px;
+            color: #d25f00;
+            border-width: 1px;
+            border-color: #999999;
+            border-collapse: collapse;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        table._jj_hovertable th {
+            background-color: #c3dde0;
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #a9c6c9;
+        }
+
+        table._jj_hovertable tr {
+            background-color: #fff;
+        }
+
+        table._jj_hovertable td {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #a9c6c9;
+        }
+
+        ._jj_button_close {
+            font-size: 20px;
+            font-weight: 700;
+            color: #FFF;
+        }
+
+        .__jj_dialog_title {
+            /*display: flex;*/
+        }
+
+        .__jj_dialog_title_left {
+            /*flex: 1;*/
+            font-size: 14px;
+            /*color: #fff;*/
+        }
+
+        .__jj_dialog_title_left span {
+            color: #1e80ff;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .__jj_dialog_title_right {
+            width: 30px;
+        }
+    </style>
 </head>
 <body>
-    <h1>test</h1>
+<div class="main">
+    <div class="__jj_dialog_title">
+        <div class="__jj_dialog_title_left">连续签到天数<span id="continuous_num" th:text="${cont_count}">0</span>天
+            | 累计签到天数<span id="total_num" th:text="${sum_count}">0</span>天
+        </div>
+        <div class="__jj_dialog_title_left" id="__jj_dialog_title_left">当前矿石数<span id="ore_num"
+                                                                                   th:text="${ore_count}">0</span>个
+        </div>
+    </div>
+    <div style="margin-bottom: 10px; margin-top: 10px">
+        <button id="_jj_btn_sign_in" type="button" class="_jj_button _jj_btn_sign_in">签到</button>
+        <button id="_jj_btn_draw" type="button" class="_jj_button _jj_btn_draw">抽奖</button>
+        <button id="_jj_btn_stop" type="button" class="_jj_button">停止</button>
+    </div>
+    <table class="_jj_hovertable">
+        <thead>
+        <tr>
+            <td>奖品图标</td>
+            <td>奖品名称</td>
+            <td>中奖次数</td>
+            <td>累计奖励</td>
+        </tr>
+        <tbody id="_jj_tbodyList">
+        </tbody>
+        </thead>
+    </table>
+</div>
 </body>
 </html>
