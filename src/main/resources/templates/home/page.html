@@ -142,8 +142,8 @@
         <tr th:each="info : ${data.lottery}">
             <td><img class="img-responsive" alt="App Logo" th:src="${info.lottery_image}"/></td>
             <td th:text="${info.lottery_name}">奖品名称</td>
-            <td>中奖次数</td>
-            <td>累计奖励</td>
+            <td>0</td>
+            <td>0</td>
         </tr>
         </tbody>
         </thead>
@@ -151,6 +151,18 @@
 </div>
 <script type="application/javascript">
     $("#_jj_btn_sign_in").click(() => {
+        $.get('/rest/signIn', (data, status) => {
+            let result = JSON.parse(data)
+            if (result.err_no != 0) {
+                alert(result.err_msg)
+            } else {
+                alert(`签到成功,连续签到[[${cont_count} + 1]]天,累计签到[[${sum_count} + 1]]`)
+                $("#continuous_num").text(parseInt($("#continuous_num").text()) + 1)
+                $("#total_num").text(parseInt($("#total_num").text()) + 1)
+            }
+        })
+    })
+    $("#_jj_btn_draw").click(() => {
         $.get('/rest/signIn', (data, status) => {
             let result = JSON.parse(data)
             if (result.err_no != 0) {

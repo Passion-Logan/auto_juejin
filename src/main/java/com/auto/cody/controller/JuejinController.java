@@ -4,6 +4,7 @@ import cn.hutool.http.Header;
 import cn.hutool.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,13 +38,13 @@ public class JuejinController {
      */
     public static final String SIGN_IN = "https://api.juejin.cn/growth_api/v1/check_in";
     /**
-     * 签到天数
-     */
-    public static final String SIGN_IN_DAYS = "https://api.juejin.cn/growth_api/v1/get_counts";
-    /**
      * 矿石总数
      */
     public static final String TOTAL_ORE = "https://api.juejin.cn/growth_api/v1/get_cur_point";
+    /**
+     * 抽奖
+     */
+    public static final String draw_url = "https://api.juejin.cn/growth_api/v1/lottery/draw";
 
     @PostConstruct
     public void init() {
@@ -68,6 +69,14 @@ public class JuejinController {
                 .form(PARAM_MAP)
                 .execute().body();
         return body;
+    }
+
+    /**
+     * @return
+     */
+    @PostMapping
+    public String draw() {
+        return "";
     }
 
 
