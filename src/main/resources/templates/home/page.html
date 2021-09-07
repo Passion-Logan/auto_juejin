@@ -130,6 +130,7 @@
         <button id="_jj_btn_draw" type="button" class="_jj_button _jj_btn_draw">抽奖</button>
         <button id="_jj_btn_stop" type="button" class="_jj_button">停止</button>
     </div>
+
     <table class="_jj_hovertable">
         <thead>
         <tr>
@@ -140,16 +141,18 @@
         </tr>
         <tbody id="_jj_tbodyList">
         <tr th:each="info : ${data.lottery}">
-            <td><img class="img-responsive" alt="App Logo" th:src="${info.lottery_image}"/></td>
+            <td><img class="img-responsive" th:src="${info.lottery_image}"/></td>
             <td th:text="${info.lottery_name}">奖品名称</td>
-            <td>0</td>
-            <td>0</td>
+            <td th:id="${info.lottery_id}">0</td>
+            <td th:id="${info.lottery_id} + '_total'">0</td>
         </tr>
         </tbody>
         </thead>
     </table>
 </div>
 <script type="application/javascript">
+    var timer
+
     $("#_jj_btn_sign_in").click(() => {
         $.get('/rest/signIn', (data, status) => {
             let result = JSON.parse(data)
@@ -162,18 +165,63 @@
             }
         })
     })
+
     $("#_jj_btn_draw").click(() => {
-        $.get('/rest/signIn', (data, status) => {
+        timer = setInterval(() => {
+            let ore = parseInt($("#ore_num").text())
+            if (ore / 200 < 1) {
+                clearInterval(timer)
+                alert("矿石不足")
+            } else {
+                onDraw()
+        }
+        }, 500)
+    })
+
+    $("#_jj_btn_stop").click(() => {
+        clearInterval(timer)
+    })
+
+    /**
+     * 抽奖
+     */
+    function onDraw() {
+        $.post('/rest/draw', (data, status) => {
+            let result = JSON.parse(data)
+            if (result.err_no != 0) {
+                clearInterval(timer)
+                alert(result.err_msg)
+            } else {
+                //onResetOre()
+                cumulativeReward(result)
+            }
+        })
+    }
+
+    /**
+     * 累计奖励
+     */
+    function cumulativeReward(result) {
+        let thisId = '#' + result.data.lottery_id
+        let totalId = thisId + '_total'
+        const appreciation = (result.data.lottery_id == "6981716980386496552" || data.lottery_name == "66矿石") ?  66 : 1
+        $(thisId).text(parseInt($(thisId).text()) + 1)
+        $(totalId).text(parseInt($(totalId).text()) + appreciation)
+    }
+
+    /**
+     * 重置矿石
+     */
+    function onResetOre() {
+        $.get('/rest/getOre', (data, status) => {
             let result = JSON.parse(data)
             if (result.err_no != 0) {
                 alert(result.err_msg)
             } else {
-                alert(`签到成功,连续签到[[${cont_count} + 1]]天,累计签到[[${sum_count} + 1]]`)
-                $("#continuous_num").text(parseInt($("#continuous_num").text()) + 1)
-                $("#total_num").text(parseInt($("#total_num").text()) + 1)
+                $("#ore_num").text(parseInt(result.data))
             }
         })
-    })
+    }
 
 </script>
 </body>
