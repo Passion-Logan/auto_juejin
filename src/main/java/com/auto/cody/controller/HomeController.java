@@ -55,7 +55,6 @@ public class HomeController {
 
     @RequestMapping("page")
     public String page(Model model) {
-
         // 签到天数
         String days = CommonUtil.executeUrl(SIGN_IN_DAYS, cookie, PARAM_MAP);
         JSONObject dayReq = JSONUtil.parseObj(days);
@@ -63,11 +62,13 @@ public class HomeController {
         JSONObject dayInfo = JSONUtil.parseObj(dayReq.get("data"));
         model.addAttribute("cont_count", dayInfo.get("cont_count"));
         model.addAttribute("sum_count", dayInfo.get("sum_count"));
+
         // 矿石总数
         String ore = CommonUtil.executeUrl(TOTAL_ORE, cookie, PARAM_MAP);
         JSONObject oreReq = JSONUtil.parseObj(ore);
         CommonUtil.isErr(oreReq);
         model.addAttribute("ore_count", oreReq.get("data"));
+
         // 奖品池信息
         String pool = HttpUtil.get(PRIZE_POOL, PARAM_MAP);
         JSONObject poolReq = JSONUtil.parseObj(pool);

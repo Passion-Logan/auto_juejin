@@ -1,10 +1,7 @@
 package com.auto.cody.controller;
 
-import cn.hutool.core.lang.WeightRandom;
-import cn.hutool.core.util.RandomUtil;
 import cn.hutool.http.Header;
 import cn.hutool.http.HttpRequest;
-import cn.hutool.json.JSONUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,9 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * @author wql
@@ -77,33 +72,10 @@ public class JuejinController {
      */
     @PostMapping("draw")
     public String draw() {
-        List<datas> datas = new ArrayList<>();
-        datas.add(new datas("6981716980386496552", "66矿石"));
-        datas.add(new datas("6981716405976743943", "Bug"));
-        datas.add(new datas("7001028932350771203", "掘金马克杯"));
-        datas.add(new datas("6993211005295656975", "随机限量徽章"));
-        datas.add(new datas("6997270183769276416", "Yoyo抱枕"));
-        datas.add(new datas("6988024967170359326", "掘金新款T恤"));
-        datas.add(new datas("6981715474664914985", "乐高海洋巨轮"));
-        datas.add(new datas("6981705951946489886", "Switch"));
-
-        List<WeightRandom.WeightObj<Integer>> objs = new ArrayList<>();
-        objs.add(new WeightRandom.WeightObj<>(0, 10));
-        objs.add(new WeightRandom.WeightObj<>(1, 8));
-        objs.add(new WeightRandom.WeightObj<>(2, 7));
-        objs.add(new WeightRandom.WeightObj<>(3, 3));
-        objs.add(new WeightRandom.WeightObj<>(4, 3));
-        objs.add(new WeightRandom.WeightObj<>(5, 2));
-        objs.add(new WeightRandom.WeightObj<>(6, 2));
-        objs.add(new WeightRandom.WeightObj<>(7, 1));
-
-        WeightRandom<Integer> random = RandomUtil.weightRandom(objs);
-        return JSONUtil.toJsonStr(new result(0, "success", datas.get(random.next())));
-
-        /*return HttpRequest.post(DRAW_URL)
+        return HttpRequest.post(DRAW_URL)
                 .header(Header.COOKIE, cookie)
                 .form(PARAM_MAP)
-                .execute().body();*/
+                .execute().body();
     }
 
     /**
