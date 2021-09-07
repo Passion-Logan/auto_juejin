@@ -55,6 +55,7 @@ public class HomeController {
 
     @RequestMapping("page")
     public String page(Model model) {
+
         // 签到天数
         String days = CommonUtil.executeUrl(SIGN_IN_DAYS, cookie, PARAM_MAP);
         JSONObject dayReq = JSONUtil.parseObj(days);

@@ -1,5 +1,6 @@
 package com.auto.cody.controller;
 
+import cn.hutool.core.lang.WeightRandom;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.http.Header;
 import cn.hutool.http.HttpRequest;
@@ -85,8 +86,19 @@ public class JuejinController {
         datas.add(new datas("6988024967170359326", "掘金新款T恤"));
         datas.add(new datas("6981715474664914985", "乐高海洋巨轮"));
         datas.add(new datas("6981705951946489886", "Switch"));
-        int c = RandomUtil.randomInt(0, 8);
-        return JSONUtil.toJsonStr(new result(0, "success", datas.get(c)));
+
+        List<WeightRandom.WeightObj<Integer>> objs = new ArrayList<>();
+        objs.add(new WeightRandom.WeightObj<>(0, 10));
+        objs.add(new WeightRandom.WeightObj<>(1, 8));
+        objs.add(new WeightRandom.WeightObj<>(2, 7));
+        objs.add(new WeightRandom.WeightObj<>(3, 3));
+        objs.add(new WeightRandom.WeightObj<>(4, 3));
+        objs.add(new WeightRandom.WeightObj<>(5, 2));
+        objs.add(new WeightRandom.WeightObj<>(6, 2));
+        objs.add(new WeightRandom.WeightObj<>(7, 1));
+
+        WeightRandom<Integer> random = RandomUtil.weightRandom(objs);
+        return JSONUtil.toJsonStr(new result(0, "success", datas.get(random.next())));
 
         /*return HttpRequest.post(DRAW_URL)
                 .header(Header.COOKIE, cookie)
