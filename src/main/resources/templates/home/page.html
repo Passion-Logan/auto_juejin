@@ -168,14 +168,13 @@
 
     $("#_jj_btn_draw").click(() => {
         timer = setInterval(() => {
-            let ore = parseInt($("#ore_num").text())
-            if (ore / 200 < 1) {
+            if (parseInt($("#ore_num").text() < 200)) {
                 clearInterval(timer)
                 alert("矿石不足")
             } else {
                 onDraw()
-        }
-        }, 500)
+            }
+        }, 4000)
     })
 
     $("#_jj_btn_stop").click(() => {
@@ -204,7 +203,7 @@
     function cumulativeReward(result) {
         let thisId = '#' + result.data.lottery_id
         let totalId = thisId + '_total'
-        const appreciation = (result.data.lottery_id == "6981716980386496552" || result.data.lottery_name == "66矿石") ?  66 : 1
+        const appreciation = (result.data.lottery_id == "6981716980386496552" || result.data.lottery_name == "66矿石") ? 66 : 1
         $(thisId).text(parseInt($(thisId).text()) + 1)
         $(totalId).text(parseInt($(totalId).text()) + appreciation)
     }

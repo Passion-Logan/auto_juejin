@@ -23,8 +23,15 @@ public class CommonUtil {
         }
     }
 
-    public static String executeUrl(String url, String cookie, HashMap<String, Object> paramMap) {
+    public static String executeGetUrl(String url, String cookie, HashMap<String, Object> paramMap) {
         return HttpRequest.get(url)
+                .header(Header.COOKIE, cookie)
+                .form(paramMap)
+                .execute().body();
+    }
+
+    public static String executePostUrl(String url, String cookie, HashMap<String, Object> paramMap) {
+        return HttpRequest.post(url)
                 .header(Header.COOKIE, cookie)
                 .form(paramMap)
                 .execute().body();

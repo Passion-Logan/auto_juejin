@@ -1,8 +1,7 @@
 package com.auto.cody.controller;
 
-import cn.hutool.http.Header;
-import cn.hutool.http.HttpRequest;
 import com.auto.cody.enums.CommonInterface;
+import com.auto.cody.utils.CommonUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,10 +47,7 @@ public class JuejinController {
      */
     @GetMapping("signIn")
     public String signIn() {
-        return HttpRequest.post(CommonInterface.SIGN_IN)
-                .header(Header.COOKIE, cookie)
-                .form(PARAM_MAP)
-                .execute().body();
+        return CommonUtil.executePostUrl(CommonInterface.SIGN_IN, cookie, PARAM_MAP);
     }
 
     /**
@@ -61,10 +57,7 @@ public class JuejinController {
      */
     @PostMapping("draw")
     public String draw() {
-        return HttpRequest.post(CommonInterface.DRAW_URL)
-                .header(Header.COOKIE, cookie)
-                .form(PARAM_MAP)
-                .execute().body();
+        return CommonUtil.executePostUrl(CommonInterface.DRAW_URL, cookie, PARAM_MAP);
     }
 
     /**
@@ -74,10 +67,7 @@ public class JuejinController {
      */
     @GetMapping("getOre")
     public String getOre() {
-        return HttpRequest.get(CommonInterface.TOTAL_ORE)
-                .header(Header.COOKIE, cookie)
-                .form(PARAM_MAP)
-                .execute().body();
+        return CommonUtil.executeGetUrl(CommonInterface.TOTAL_ORE, cookie, PARAM_MAP);
     }
 
 }
