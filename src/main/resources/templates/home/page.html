@@ -172,6 +172,10 @@
                 clearInterval(timer)
                 alert("矿石不足")
             } else {
+                $("#_jj_btn_draw").text("抽奖中")
+                $("#_jj_btn_draw").attr("disabled", "disabled")
+                $("#_jj_btn_draw").css("background-color", "darkgrey")
+                $("#_jj_btn_draw").css("cursor", "wait")
                 onDraw()
             }
         }, 4000)
@@ -179,6 +183,10 @@
 
     $("#_jj_btn_stop").click(() => {
         clearInterval(timer)
+        $("#_jj_btn_draw").text("抽奖")
+        $("#_jj_btn_draw").removeAttr("disabled")
+        $("#_jj_btn_draw").css("background-color", "#1e80ff")
+        $("#_jj_btn_draw").css("cursor", "")
     })
 
     /**
